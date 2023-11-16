@@ -117,4 +117,8 @@ sys_chpr(void)
   return chpr(pid, pr);
 }
 
-
+int
+sys_hist(void)
+{
+  return;
+}
