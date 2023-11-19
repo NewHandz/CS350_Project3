@@ -60,7 +60,7 @@ runcmd(struct cmd *cmd)
   //int p[2];
   //struct backcmd *bcmd;
   struct execcmd *ecmd;
-  //struct listcmd *lcmd;
+  struct listcmd *lcmd;
   //struct pipecmd *pcmd;
   //struct redircmd *rcmd;
   
@@ -83,10 +83,19 @@ runcmd(struct cmd *cmd)
     printf(2, "Redirection Not Implemented\n");
     break;
 
+  //------------------------------------
   case LIST:
-    printf(2, "List Not Implemented\n");
+    //Make a LIST command struct 
+    //This break the command into part, and the left part run's first 
+    //The second command will wait until first command is done
+    lcmd = (struct listcmd*)cmd;
+    if(fork() == 0)
+      runcmd(lcmd->left);
+    wait();
+    runcmd(lcmd->right);
+    //printf(2, "List Not Implemented\n");
     break;
-
+  //------------------------------------
   case PIPE:
     printf(2, "Pipe Not implemented\n");
     break;
@@ -248,7 +257,15 @@ gettoken(char **ps, char *es, char **q, char **eq)
   case '|':
   case '(':
   case ')':
-  case ';':
+  //--------------------------------
+  case ';': 
+  
+  // move the point from ';' to next command
+  *ps = s + 1; 
+  return ret;
+  
+  break;
+  //--------------------------------
   case '&':
   case '<':
     s++;
