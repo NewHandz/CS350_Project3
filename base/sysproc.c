@@ -117,7 +117,7 @@ sys_chpr(void)
   return chpr(pid, pr);
 }
 
-char cmdlist[10][100];
+char cmdlist[11][100];
 int histsize = 0;
 
 int
@@ -125,7 +125,7 @@ sys_hist(void)
 {
   
   for (int i = 0; i < histsize; i++){
-    cprintf("Command #%d: %s\n", i, cmdlist[i]);
+    cprintf("Previous command %d: %s", i+1, cmdlist[i]);
   }
   
   return 0;
@@ -135,10 +135,16 @@ int sys_addhist(void) {
   char* cmd;
 
   argstr(0, &cmd);
-   
-  strncpy(cmdlist[histsize], cmd, sizeof(cmdlist[histsize])-1);
+
+  for (int i = histsize; i >= 0; i--){
+    strncpy(cmdlist[i+1], cmdlist[i], sizeof(cmdlist[i])-1);
+  }
   
-  histsize++;
+  if (histsize < 10) {
+    histsize++;
+  }
+  strncpy(cmdlist[0], cmd, sizeof(cmdlist[0])-1);
+
   return 0;
 }
 
@@ -150,5 +156,7 @@ sys_waitpid(void)
 
   argint(0, &opid);
   argint(2, &options);
+
+  //call waitpid
   return 0;
 }
