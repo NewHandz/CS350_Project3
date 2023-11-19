@@ -5,7 +5,6 @@
 int 
 main(int argc, char * argv[])
 {
-    printf(1, "BYE~\n");
-    shutdown();
+    hist();
     exit(); // return 0;
 }

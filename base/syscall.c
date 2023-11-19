@@ -113,6 +113,7 @@ extern int sys_cps(void);
 extern int sys_chpr(void);
 extern int sys_hist(void);
 extern int sys_waitpid(void);
+extern int sys_addhist(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -140,7 +141,8 @@ static int (*syscalls[])(void) = {
 [SYS_cps]   sys_cps,
 [SYS_chpr]  sys_chpr,
 [SYS_hist] sys_hist,
-[SYS_waitpid] sys_waitpid
+[SYS_waitpid] sys_waitpid,
+[SYS_addhist] sys_addhist,
 };
 
 void

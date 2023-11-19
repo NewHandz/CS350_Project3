@@ -27,6 +27,7 @@ int cps(void);
 int chpr(int pid, int priority);
 int hist(void);
 int waitpid(int pid, int *status, int options);
+int addhist(char*);
 // ulib.c
 int stat(char*, struct stat*);
 char* strcpy(char*, char*);

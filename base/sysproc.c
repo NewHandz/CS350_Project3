@@ -117,15 +117,38 @@ sys_chpr(void)
   return chpr(pid, pr);
 }
 
+char cmdlist[10][100];
+int histsize = 0;
+
 int
 sys_hist(void)
 {
+  
+  for (int i = 0; i < histsize; i++){
+    cprintf("Command #%d: %s\n", i, cmdlist[i]);
+  }
+  
+  return 0;
+}
+
+int sys_addhist(void) {
+  char* cmd;
+
+  argstr(0, &cmd);
+   
+  strncpy(cmdlist[histsize], cmd, sizeof(cmdlist[histsize])-1);
+  
+  histsize++;
   return 0;
 }
 
 int
 sys_waitpid(void)
 {
-  cprintf("wait");
+  int opid, options;
+  int status;
+
+  argint(0, &opid);
+  argint(2, &options);
   return 0;
 }

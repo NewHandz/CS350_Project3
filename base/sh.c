@@ -55,7 +55,6 @@ struct cmd *parsecmd(char*);
 //extra
 //
 //
-int fd1[2];
 
 // Execute cmd.  Never returns.
 void
@@ -71,12 +70,6 @@ runcmd(struct cmd *cmd)
   if(cmd == 0)
     exit();
   
-  
-  close(fd1[0]);
-  write(fd1[1], "1", 1);
-  close(fd1[1]);
-
- 
   switch(cmd->type){
   default:
     panic("runcmd");
@@ -119,12 +112,6 @@ runcmd(struct cmd *cmd)
 
       exit();
     }
-    else{
-      //need to fix zombie process
-      int status = 0;
-      waitpid(bpid, &status, 1);
-    }
-
     //printf(2, "Backgrounding not implemented\n");
     break;
   }
@@ -165,6 +152,10 @@ main(void)
       if(chdir(buf+3) < 0)
         printf(2, "cannot cd %s\n", buf+3);
       continue;
+    }
+    if (!(buf[0] == 'h' && buf[1] == 'i' && buf[2] == 's' && buf[3] == 't')) {
+      //add the command to history because the command does not start with 'hist'
+      addhist(buf);
     }
     if(fork1() == 0)
       runcmd(parsecmd(buf));
