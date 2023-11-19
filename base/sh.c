@@ -52,10 +52,33 @@ struct backcmd {
 int fork1(void);  // Fork but panics on failure.
 void panic(char*);
 struct cmd *parsecmd(char*);
-//extra
-//
-//
+void runcmd(struct cmd*);
 
+char cmdlist[11][100];
+int histsize = 0;
+
+int
+print_history(void)
+{
+  for (int i = 0; i < histsize; i++){
+    printf(2, "Previous command %d: %s", i+1, cmdlist[i]);
+  }
+  return 0;
+}
+
+int add_history(char* cmd){
+  for (int i = histsize; i >= 0; i--){
+    strcpy(cmdlist[i+1], cmdlist[i]);
+  }
+  
+  if (histsize < 10) {
+    histsize++;
+  }
+  
+  strcpy(cmdlist[0], cmd);
+
+  return 0;
+}
 // Execute cmd.  Never returns.
 void
 runcmd(struct cmd *cmd)
@@ -78,6 +101,17 @@ runcmd(struct cmd *cmd)
     ecmd = (struct execcmd*)cmd;
     if(ecmd->argv[0] == 0)
       exit();
+
+    if (strcmp(ecmd->argv[0], "hist") == 0){
+      if (strcmp(ecmd->argv[1], "print") == 0) {
+        print_history();
+        break;
+      }
+      int index = atoi(ecmd->argv[1]) - 1;
+      runcmd(parsecmd(cmdlist[index]));
+      break;
+    }
+
     exec(ecmd->argv[0], ecmd->argv);
     printf(2, "exec %s failed\n", ecmd->argv[0]);
     break;
@@ -152,8 +186,7 @@ main(void)
       continue;
     }
     if (!(buf[0] == 'h' && buf[1] == 'i' && buf[2] == 's' && buf[3] == 't')) {
-      //add the command to history because the command does not start with 'hist'
-      addhist(buf);
+      add_history(buf);
     }
     if(fork1() == 0)
       runcmd(parsecmd(buf));
