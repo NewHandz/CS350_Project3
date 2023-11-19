@@ -108,6 +108,12 @@ runcmd(struct cmd *cmd)
         break;
       }
       int index = atoi(ecmd->argv[1]) - 1;
+      
+      if (index > 9 || index < 0){
+        printf(2, "Number out of bounds, must be between 1 and 10\n");
+        break;
+      }
+
       runcmd(parsecmd(cmdlist[index]));
       break;
     }

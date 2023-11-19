@@ -121,41 +121,6 @@ char cmdlist[11][100];
 int histsize = 0;
 
 int
-sys_hist(void)
-{
-  for (int i = 0; i < histsize; i++){
-    cprintf("Previous command %d: %s", i+1, cmdlist[i]);
-  }
-  return 0;
-}
-
-int
-sys_runhist(void){
-  int index;
-  argint(0, &index);
-  
-  char* cmd = cmdlist[index]; 
-  return 0;
-}
-
-int sys_addhist(void) {
-  char* cmd;
-  argstr(0, &cmd);
-
-  for (int i = histsize; i >= 0; i--){
-    strncpy(cmdlist[i+1], cmdlist[i], sizeof(cmdlist[i])-1);
-  }
-  
-  if (histsize < 10) {
-    histsize++;
-  }
-  
-  strncpy(cmdlist[0], cmd, sizeof(cmdlist[0])-1);
-
-  return 0;
-}
-
-int
 sys_waitpid(void)
 {
   int opid, options;

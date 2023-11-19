@@ -176,7 +176,6 @@ UPROGS=\
 	_usertests\
 	_wc\
 	_zombie\
-	_hist \
 	_shutdown \
 	_sleep_and_echo \
 	_ps \
