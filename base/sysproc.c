@@ -123,20 +123,18 @@ int histsize = 0;
 int
 sys_hist(void)
 {
-  int shouldPrint, cmdNum;
-
-  argint(0, &shouldPrint);
-  argint(1, &cmdNum);
-
-  if (shouldPrint) {
-    for (int i = 0; i < histsize; i++){
-      cprintf("Previous command %d: %s", i+1, cmdlist[i]);
-    }
+  for (int i = 0; i < histsize; i++){
+    cprintf("Previous command %d: %s", i+1, cmdlist[i]);
   }
-  else {
-    // execute the command #cmdNum
-  }
+  return 0;
+}
+
+int
+sys_runhist(void){
+  int index;
+  argint(0, &index);
   
+  char* cmd = cmdlist[index]; 
   return 0;
 }
 
@@ -151,6 +149,7 @@ int sys_addhist(void) {
   if (histsize < 10) {
     histsize++;
   }
+  
   strncpy(cmdlist[0], cmd, sizeof(cmdlist[0])-1);
 
   return 0;

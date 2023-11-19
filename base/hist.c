@@ -10,12 +10,12 @@ main(int argc, char * argv[])
     exit();
   }
 
-  if (strcmp(argv[1], "print")){
-    hist(0, 0);
+  if (!strcmp(argv[1], "print")){
+    hist();
   }
   else {
-    int cmdNum = 0;
-    hist(1, cmdNum);
+    int cmdNum = atoi(argv[1]);
+    runhist(cmdNum);
   }
   
   exit(); // return 0;

@@ -26,4 +26,4 @@
 #define SYS_hist 25
 #define SYS_waitpid 26
 #define SYS_addhist 27
-
+#define SYS_runhist 28

@@ -109,7 +109,6 @@ runcmd(struct cmd *cmd)
 
     if (bpid == 0){
       runcmd(bcmd->cmd);
-
       exit();
     }
     //printf(2, "Backgrounding not implemented\n");
@@ -134,7 +133,6 @@ main(void)
 {
   static char buf[100];
   int fd;
-  
    
   // Ensure that three file descriptors are open.
   while((fd = open("console", O_RDWR)) >= 0){
