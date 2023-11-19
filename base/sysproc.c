@@ -120,5 +120,12 @@ sys_chpr(void)
 int
 sys_hist(void)
 {
-  return;
+  return 0;
+}
+
+int
+sys_waitpid(void)
+{
+  cprintf("wait");
+  return 0;
 }

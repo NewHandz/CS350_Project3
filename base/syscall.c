@@ -112,6 +112,7 @@ extern int sys_transfer_tickets(void);
 extern int sys_cps(void);
 extern int sys_chpr(void);
 extern int sys_hist(void);
+extern int sys_waitpid(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -138,7 +139,8 @@ static int (*syscalls[])(void) = {
 [SYS_shutdown]      sys_shutdown,
 [SYS_cps]   sys_cps,
 [SYS_chpr]  sys_chpr,
-[SYS_hist] sys_hist
+[SYS_hist] sys_hist,
+[SYS_waitpid] sys_waitpid
 };
 
 void

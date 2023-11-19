@@ -24,3 +24,4 @@
 #define SYS_cps  23
 #define SYS_chpr  24
 #define SYS_hist 25
+#define SYS_waitpid 26
