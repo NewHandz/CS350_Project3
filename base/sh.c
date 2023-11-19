@@ -121,7 +121,8 @@ runcmd(struct cmd *cmd)
     }
     else{
       //need to fix zombie process
-      //waitpid(bpid, &status, WNOHANG);
+      int status = 0;
+      waitpid(bpid, &status, 1);
     }
 
     //printf(2, "Backgrounding not implemented\n");
