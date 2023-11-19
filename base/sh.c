@@ -52,13 +52,17 @@ struct backcmd {
 int fork1(void);  // Fork but panics on failure.
 void panic(char*);
 struct cmd *parsecmd(char*);
+//extra
+//
+//
+int fd1[2];
 
 // Execute cmd.  Never returns.
 void
 runcmd(struct cmd *cmd)
 {
   //int p[2];
-  //struct backcmd *bcmd;
+  struct backcmd *bcmd;
   struct execcmd *ecmd;
   struct listcmd *lcmd;
   //struct pipecmd *pcmd;
@@ -66,7 +70,13 @@ runcmd(struct cmd *cmd)
   
   if(cmd == 0)
     exit();
+  
+  
+  close(fd1[0]);
+  write(fd1[1], "1", 1);
+  close(fd1[1]);
 
+ 
   switch(cmd->type){
   default:
     panic("runcmd");
@@ -101,7 +111,20 @@ runcmd(struct cmd *cmd)
     break;
 
   case BACK:
-    printf(2, "Backgrounding not implemented\n");
+    bcmd = (struct backcmd*)cmd;
+    int bpid = fork();
+
+    if (bpid == 0){
+      runcmd(bcmd->cmd);
+
+      exit();
+    }
+    else{
+      //need to fix zombie process
+      //waitpid(bpid, &status, WNOHANG);
+    }
+
+    //printf(2, "Backgrounding not implemented\n");
     break;
   }
   exit();
@@ -123,7 +146,8 @@ main(void)
 {
   static char buf[100];
   int fd;
-
+  
+   
   // Ensure that three file descriptors are open.
   while((fd = open("console", O_RDWR)) >= 0){
     if(fd >= 3){
