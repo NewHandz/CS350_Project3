@@ -83,11 +83,11 @@ int add_history(char* cmd){
 void
 runcmd(struct cmd *cmd)
 {
-  //int p[2];
+  int p[2];
   struct backcmd *bcmd;
   struct execcmd *ecmd;
   struct listcmd *lcmd;
-  //struct pipecmd *pcmd;
+  struct pipecmd *pcmd;
   //struct redircmd *rcmd;
   
   if(cmd == 0)
