@@ -61,7 +61,7 @@ int
 print_history(void)
 {
   for (int i = 0; i < histsize; i++){
-    printf(2, "Previous command %d: %s", i+1, cmdlist[i]);
+    printf(1, "Previous command %d: %s", i+1, cmdlist[i]);
   }
   return 0;
 }
