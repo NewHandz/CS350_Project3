@@ -164,6 +164,7 @@ runcmd(struct cmd *cmd)
     close(p[0]);
     close(p[1]);
     wait();
+    wait();
     //printf(2, "Pipe Not implemented\n");
     break;
 
