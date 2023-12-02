@@ -88,7 +88,7 @@ runcmd(struct cmd *cmd)
   struct execcmd *ecmd;
   struct listcmd *lcmd;
   struct pipecmd *pcmd;
-  //struct redircmd *rcmd;
+  struct redircmd *rcmd;
   
   if(cmd == 0)
     exit();
@@ -123,7 +123,16 @@ runcmd(struct cmd *cmd)
     break;
 
   case REDIR:
-    printf(2, "Redirection Not Implemented\n");
+    rcmd = (struct redircmd*)cmd;
+    //close(rcmd->fd);
+    int fd = open(rcmd->file, O_CREATE | O_RDWR);
+    //runcmd(rcmd->cmd);
+    close(rcmd->fd);
+    dup(fd);
+    runcmd(rcmd->cmd);
+    close(fd);
+    close(rcmd->fd);
+    //printf(2, "Redirection Not Implemented\n");
     break;
 
   //------------------------------------
@@ -140,7 +149,7 @@ runcmd(struct cmd *cmd)
     break;
   //------------------------------------
   case PIPE:
-    pcmd = (struct listcmd*)cmd;
+    pcmd = (struct pipecmd*)cmd;
     if(pipe(p) < 0)
     {
       panic("pipe failed");
