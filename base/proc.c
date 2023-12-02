@@ -312,12 +312,6 @@ wait(void)
   }
 }
 
-// Wait for a child process to exit and return its pid.
-// Return -1 if this process has no children.
-int
-waitpid(int tpid, int *status, int options)
-{
-}
 
 //PAGEBREAK: 42
 // Per-CPU process scheduler.

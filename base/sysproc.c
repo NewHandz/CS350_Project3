@@ -116,19 +116,3 @@ sys_chpr(void)
 
   return chpr(pid, pr);
 }
-
-char cmdlist[11][100];
-int histsize = 0;
-
-int
-sys_waitpid(void)
-{
-  int opid, options;
-  int status;
-
-  argint(0, &opid);
-  argint(2, &options);
-
-  //call waitpid
-  return 0;
-}
