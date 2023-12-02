@@ -125,7 +125,7 @@ runcmd(struct cmd *cmd)
   case REDIR:
     rcmd = (struct redircmd*)cmd;
     //close(rcmd->fd);
-    int fd = open(rcmd->file, O_CREATE | O_RDWR);
+    int fd = open(rcmd->file, rcmd->mode); // O_CREATE | O_RDWR
     //runcmd(rcmd->cmd);
     close(rcmd->fd);
     dup(fd);
@@ -141,7 +141,9 @@ runcmd(struct cmd *cmd)
     //This break the command into part, and the left part run's first 
     //The second command will wait until first command is done
     lcmd = (struct listcmd*)cmd;
-    if(fork() == 0)
+    int pid = fork();
+
+    if(pid == 0)
       runcmd(lcmd->left);
     wait();
     runcmd(lcmd->right);
@@ -344,15 +346,7 @@ gettoken(char **ps, char *es, char **q, char **eq)
   case '|':
   case '(':
   case ')':
-  //--------------------------------
   case ';': 
-  
-  // move the point from ';' to next command
-  *ps = s + 1; 
-  return ret;
-  
-  break;
-  //--------------------------------
   case '&':
   case '<':
     s++;
