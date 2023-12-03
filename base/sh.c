@@ -124,15 +124,16 @@ runcmd(struct cmd *cmd)
 
   case REDIR:
     rcmd = (struct redircmd*)cmd;
-    //close(rcmd->fd);
-    int fd = open(rcmd->file, rcmd->mode); // O_CREATE | O_RDWR
-    //runcmd(rcmd->cmd);
+    int fd = open(rcmd->file, rcmd->mode);
     close(rcmd->fd);
+    if (rcmd->type == '>' || rcmd->type == '<'){
+      if(fd < 0){//0666 for rw permissions
+         printf(2, "Could not open %s\n", rcmd->file);
+         exit();
+      }
+    }
     dup(fd);
     runcmd(rcmd->cmd);
-    close(fd);
-    close(rcmd->fd);
-    //printf(2, "Redirection Not Implemented\n");
     break;
 
   //------------------------------------
